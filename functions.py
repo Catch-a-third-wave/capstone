@@ -50,7 +50,9 @@ def deal_with_NaNs_masks(df):
     # Function to create a new dataframe for data on masks.
 def create_df_masks(df):
     '''Function to create a data frame for data on masks.'''
+
     df_masks = df[["country_agg","GID_0","region_agg","GID_1","country_region_numeric","gender","age_bucket","smoothed_pct_cli","date","month","hdi","hdi_level"]]
+
     mask_names = df.columns[(df.columns.str.contains("mask") & (df.columns.str.contains("weighted")))]
 
     for i in mask_names:
@@ -109,7 +111,7 @@ def get_hdi(path,filename):
     df_high = df_levels.iloc[idx[1]-6:idx[2]-7, :]
     df_medium = df_levels.iloc[idx[2]-6:idx[3]-7, :]
     df_low = df_levels.iloc[idx[3]-6:, :]
-        
+
     # Add a column with the hdi-level per data frame.
     df_very_high[2] = "very high"
     df_high[2] = "high"
