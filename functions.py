@@ -29,6 +29,7 @@ def insert_month(df):
     df['date'] = pd.to_datetime(df.loc[:,'date'])
     df["month"]=pd.DatetimeIndex(df['date']).month
     print('Created month column.')
+    
     return df
 
 # Function to update NaNs in the smoothed_pct_wear_mask_all_time_weighted with numbers from the  smoothedpct column and to remove lines of NaNs in smoothed_pct_cli.
@@ -83,6 +84,7 @@ def get_hdi(path,filename):
     hdi_data[1] = hdi_data[1].replace(to_replace ="Congo (Democratic Republic of the)", value ="Democratic Republic of the Congo") 
     hdi_data[1] = hdi_data[1].replace(to_replace ="American Samoa", value ="Samoa")
     
+    
     ## Create hdi dictionary
     
     # Select the useful rows and columns from the hdi data file to make the hdi.
@@ -117,6 +119,7 @@ def get_hdi(path,filename):
     df_high[2] = "high"
     df_medium[2] = "medium"
     df_low[2] = "low"
+
     
     # Append Taiwan
     df_levels_taiwan = pd.DataFrame([["Taiwan", "very high"]], columns = [1,2])
@@ -124,7 +127,7 @@ def get_hdi(path,filename):
     
     # Concatenate dataframes.
     df_hdi_levels = pd.concat([df_very_high, df_high, df_medium, df_low])
-    
+
     # Make a dictionary with countries as keys and hdi-levels as values.
     dict_hdi_levels = dict(df_hdi_levels.values.tolist())
     
