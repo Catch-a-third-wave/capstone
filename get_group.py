@@ -1,7 +1,7 @@
 # File with functions to generate various sub dataframes
 # Returns a list of dataframes
 
-def get_asia(df):
+def group_asia(df):
     asia_w_names = ['Armenia', 'Azerbaijan', 'Israel', 'Jordan', 'Kuwait', 'Lebanon', 'Oman', 'Iraq', 
                     'Qatar', 'Saudi Arabia', 'United Arab Emirates', 'Yemen']
     asia_c_names = ['Kazakhstan', 'Kyrgyzstan', 'Uzbekistan']
@@ -20,14 +20,14 @@ def get_asia(df):
     
     return asia
 
-def get_oceania(df):
+def group_oceania(df):
     ceania_names = ["New Zealand", "Australia"]
     oceania = countries.loc[countries["country_agg"].isin(oceania_names)] 
 
     return oceania
 
 
-def get_europe(df):
+def group_europe(df):
     europe_sc_names = ["Denmark", "Finland", "Norway", "Sweden"]
     europe_w_names = ["Austria", "Belgium", "France", "Germany", "Ireland", "Netherlands", 
                     "Switzerland", "United Kingdom"]
@@ -48,7 +48,7 @@ def get_europe(df):
     return europe
 
 
-def get_africa(df):
+def group_africa(df):
     africa_e_names = ['Ethiopia', 'Kenya', 'Madagascar', 'Mozambique', 'Tanzania']
     africa_m_names = ['Angola', 'Cameroon','Democratic Republic of the Congo']
     africa_n_names = ['Algeria', 'Egypt', 'Libya','Morocco', 'Tunisia', 'Sudan']
@@ -67,7 +67,7 @@ def get_africa(df):
     return africa
 
 
-def get_americas(df):
+def group_americas(df):
     america_n_names = ["Canada"]
     america_ce_names = ["Costa Rica", "El Salvador", "Guatemala", "Honduras", "Mexico", "Nicaragua", 
                         "Panama"]
@@ -83,3 +83,14 @@ def get_americas(df):
     america = [america_n, america_ce, america_c, america_s]
 
     return america
+
+
+def group_hdi(df):
+    hdi_low = df[df["hdi_level"] == "low"]
+    hdi_medium = df[df["hdi_level"] == "medium"]
+    hdi_high = df[df["hdi_level"] == "high"]
+    hdi_very_high = df[df["hdi_level"] == "very_high"]
+    
+    hdi = [hdi_low, hdi_medium, hdi_high, hdi_very_high]
+    
+    return hdi
