@@ -112,7 +112,7 @@ def get_hdi(path,filename):
     df_high = df_levels.iloc[idx[1]-6:idx[2]-7, :]
     df_medium = df_levels.iloc[idx[2]-6:idx[3]-7, :]
     df_low = df_levels.iloc[idx[3]-6:, :]
-
+    
     # Add a column with the hdi-level per data frame.
     df_very_high[2] = "very high"
     df_high[2] = "high"
