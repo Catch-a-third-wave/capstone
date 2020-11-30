@@ -29,6 +29,7 @@ def insert_month(df):
     df['date'] = pd.to_datetime(df.loc[:,'date'])
     df["month"]=pd.DatetimeIndex(df['date']).month
     print('Created month column.')
+    
     return df
 
 # Function to update NaNs in the smoothed_pct_wear_mask_all_time_weighted with numbers from the  smoothedpct column and to remove lines of NaNs in smoothed_pct_cli.
@@ -50,7 +51,13 @@ def deal_with_NaNs_masks(df):
     # Function to create a new dataframe for data on masks.
 def create_df_masks(df):
     '''Function to create a data frame for data on masks.'''
+
+
+
     df_masks = df[["country_agg","GID_0","region_agg","GID_1","country_region_numeric","gender","age_bucket","smoothed_pct_cli","date","month","hdi","hdi_level"]]
+
+
+
     mask_names = df.columns[(df.columns.str.contains("mask") & (df.columns.str.contains("weighted")))]
 
     for i in mask_names:
@@ -85,16 +92,25 @@ def get_hdi(path,filename):
    
     ## Create hdi dictionary
     
+    
+    ## Create hdi dictionary
+    
+    
+    ## Create hdi dictionary
+    
     # Select the useful rows and columns from the hdi data file to make the hdi.
     df_hdi = hdi_data.iloc[7:200, 1:3]
     
     # Remove the title rows indicating the human development level.
     df_hdi = df_hdi[df_hdi[2].notna()]
     
+
     # Append missing countries
     df_hdi_missing = pd.DataFrame([["Macau", 0.914],["Aland Islands", 0.911],["Taiwan", 0.911],["Puerto Rico, U.S.", 0.845],["Western Sahara", 0.6764393349141735]],columns = [1,2])
     df_hdi = pd.concat([df_hdi,df_hdi_missing])
      
+
+
     # Make a dictionary with countries as keys and the hdi as values.
     dict_hdi = dict(df_hdi.values.tolist())
     
@@ -111,13 +127,18 @@ def get_hdi(path,filename):
     df_high = df_levels.iloc[idx[1]-6:idx[2]-7, :]
     df_medium = df_levels.iloc[idx[2]-6:idx[3]-7, :]
     df_low = df_levels.iloc[idx[3]-6:, :]
+
+
         
+
+
     # Add a column with the hdi-level per data frame.
     df_very_high[2] = "very high"
     df_high[2] = "high"
     df_medium[2] = "medium"
     df_low[2] = "low"
-    
+
+
     # Append missing countries
     df_levels_high_missing = pd.DataFrame([["Macau", "very high"],["Aland Islands", "very high"],["Taiwan", "very high"],["Puerto Rico, U.S.", "very high"]],columns = [1,2])
     df_very_high = pd.concat([df_very_high,df_levels_high_missing])
@@ -128,6 +149,8 @@ def get_hdi(path,filename):
     # Concatenate dataframes.
     df_hdi_levels = pd.concat([df_very_high, df_high, df_medium, df_low])
     
+
+
     # Make a dictionary with countries as keys and hdi-levels as values.
     dict_hdi_levels = dict(df_hdi_levels.values.tolist())
     
