@@ -79,8 +79,10 @@ def get_hdi(path,filename):
     hdi_data[1] = hdi_data[1].replace(to_replace ="Tanzania (United Republic of)", value ="Tanzania") 
     hdi_data[1] = hdi_data[1].replace(to_replace ="Lao People's Democratic Republic", value ="Laos") 
     hdi_data[1] = hdi_data[1].replace(to_replace ="Congo (Democratic Republic of the)", value ="Democratic Republic of the Congo") 
-    hdi_data[1] = hdi_data[1].replace(to_replace ="American Samoa", value ="Samoa")
-    
+    hdi_data[1] = hdi_data[1].replace(to_replace ="Samoa", value ="American Samoa") 
+    hdi_data[1] = hdi_data[1].replace(to_replace ="Palestine, State of", value ="Palestine") 
+    hdi_data[1] = hdi_data[1].replace(to_replace ="Antigua and Barbuda", value ="Antigua") 
+   
     ## Create hdi dictionary
     
     # Select the useful rows and columns from the hdi data file to make the hdi.
@@ -89,10 +91,10 @@ def get_hdi(path,filename):
     # Remove the title rows indicating the human development level.
     df_hdi = df_hdi[df_hdi[2].notna()]
     
-    # Append Taiwan
-    df_hdi_taiwan = pd.DataFrame([["Taiwan", 0.911]], columns = [1,2])
-    df_hdi = pd.concat([df_hdi,df_hdi_taiwan])
-    
+    # Append missing countries
+    df_hdi_missing = pd.DataFrame([["Macau", 0.914],["Aland Islands", 0.911],["Taiwan", 0.911],["Puerto Rico, U.S.", 0.845],["Western Sahara", 0.6764393349141735]],columns = [1,2])
+    df_hdi = pd.concat([df_hdi,df_hdi_missing])
+     
     # Make a dictionary with countries as keys and the hdi as values.
     dict_hdi = dict(df_hdi.values.tolist())
     
@@ -116,9 +118,12 @@ def get_hdi(path,filename):
     df_medium[2] = "medium"
     df_low[2] = "low"
     
-    # Append Taiwan
-    df_levels_taiwan = pd.DataFrame([["Taiwan", "very high"]], columns = [1,2])
-    df_very_high = pd.concat([df_very_high,df_levels_taiwan])
+    # Append missing countries
+    df_levels_high_missing = pd.DataFrame([["Macau", "very high"],["Aland Islands", "very high"],["Taiwan", "very high"],["Puerto Rico, U.S.", "very high"]],columns = [1,2])
+    df_very_high = pd.concat([df_very_high,df_levels_high_missing])
+    
+    df_levels_medium_missing = pd.DataFrame([["Western Sahara","medium"]], columns = [1,2])
+    df_medium = pd.concat([df_medium,df_levels_medium_missing])
     
     # Concatenate dataframes.
     df_hdi_levels = pd.concat([df_very_high, df_high, df_medium, df_low])
@@ -127,30 +132,31 @@ def get_hdi(path,filename):
     dict_hdi_levels = dict(df_hdi_levels.values.tolist())
     
     print('Creating dictionaries for hdi and hdi-levels completed.')
-    return dict_hdi, dict_hdi_levels
-
+    return dict_hdi, dict_hdi_levels    
+    
     #Function creates a column in the regions table with the hdi and the hdi-levels.
-def create_hdi_columns(regions, dict_hdi, dict_hdi_levels):
-    '''This function uses the hdi dictionary and the hdi-levels dictionary to create columns in the regions table with the hdi and the hdi-levels.'''
+def create_hdi_columns(countries, dict_hdi, dict_hdi_levels):
+    '''This function uses the hdi dictionary and the hdi-levels dictionary to create a column
+    in the regions table with the hdi and the hdi-levels.'''
     
     # Create empty lists for hdi and hdi levels
     index = []
     levels = []
     
     # Get the hdi values for the countries in the regions dataframe and append it to the list.
-    for i in range(len(regions)):  
-        hd_idx = dict_hdi.get(regions.at[regions.index[i],"country_agg"],"NaN")
+    for i in range(len(countries)):  
+        hd_idx = dict_hdi.get(countries.at[countries.index[i],"country_agg"],"NaN")
         index.append(hd_idx)
     print('Creating hdi list completed.')
     
     # Get the hdi index for the countries in the regions dataframe and append it to the list.
-    for i in range(len(regions)):  
-        hdi_lvls = dict_hdi_levels.get(regions.at[regions.index[i],"country_agg"],"NaN")
+    for i in range(len(countries)):  
+        hdi_lvls = dict_hdi_levels.get(countries.at[countries.index[i],"country_agg"],"NaN")
         levels.append(hdi_lvls)
     print('Creating hdi-level list completed.')
     
     # Fill the appended lists into their corresponding columns.
-    regions["hdi"] = index
-    regions["hdi_level"] = levels
+    countries["hdi"] = index
+    countries["hdi_level"] = levels
     
-    return regions
+    return countries
