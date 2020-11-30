@@ -89,7 +89,7 @@ def group_hdi(df):
     hdi_low = df[df["hdi_level"] == "low"]
     hdi_medium = df[df["hdi_level"] == "medium"]
     hdi_high = df[df["hdi_level"] == "high"]
-    hdi_very_high = df[df["hdi_level"] == "very_high"]
+    hdi_very_high = df[df["hdi_level"]== "very high"]
     
     hdi = [hdi_low, hdi_medium, hdi_high, hdi_very_high]
     
