@@ -89,5 +89,5 @@ def update_graph(option_slct1, option_slct2):
 #-------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server()
 
