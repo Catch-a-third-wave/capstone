@@ -19,7 +19,6 @@ server = app.server
 #countries = pd.concat(dfs_country, ignore_index=True)
 #countries = functions.functions_data.insert_month(countries)
 df = pd.read_csv("dash_data/countries_dash.csv.gzip", compression="gzip")
-ddgender="overall"
 
 #--------------------------------------------------------------------------------
 #App layout
@@ -61,10 +60,10 @@ app.layout = html.Div([
 @app.callback(
     [Output(component_id = "output_container", component_property="children"),
     Output(component_id = "my_covid_map", component_property="figure")],
-    [#Input(component_id = "slct_gender", component_property="value"),
+    [Input(component_id = "slct_gender", component_property="value"),
     Input(component_id = "data", component_property="value")]
 )
-def update_graph(option):
+def update_graph(ddgender, option):
     print(ddgender, option)
     #print(type(option_slct1, option_slct2))
     
