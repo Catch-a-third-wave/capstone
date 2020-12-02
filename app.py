@@ -8,16 +8,16 @@ import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import functions.functions_data
 
 
 app = dash.Dash(__name__)
 
 # ------------------------------------------------------------
 
-dfs_country = functions.functions_data.get_data("dash_data/country/smooth/", "country")
-countries = pd.concat(dfs_country, ignore_index=True)
-countries = functions.functions_data.insert_month(countries)
+#dfs_country = functions.functions_data.get_data("dash_data/country/smooth/", "country")
+#countries = pd.concat(dfs_country, ignore_index=True)
+#countries = functions.functions_data.insert_month(countries)
+countries = pd.read_csv("dash_data/countries_dash.csv.gzip", compression="gzip")
 df = countries[countries["age_bucket"]=="overall"]
 df = df[df["date"]=="2020-07-16"]
 df = df.groupby(["country_agg", "GID_0","gender", "date"])[["rolling_total_responses","smoothed_pct_cli_weighted"]].mean()
