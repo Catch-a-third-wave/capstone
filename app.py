@@ -19,7 +19,7 @@ server = app.server
 #countries = pd.concat(dfs_country, ignore_index=True)
 #countries = functions.functions_data.insert_month(countries)
 df = pd.read_csv("dash_data/countries_dash.csv.gzip", compression="gzip")
-
+ddgender="overall"
 
 #--------------------------------------------------------------------------------
 #App layout
@@ -46,7 +46,7 @@ app.layout = html.Div([
                 style={"width": "40%"}
                 ),
     
-    html.Div(id="ouput_container", children=[]),
+    html.Div(id="output_container", children=[]),
     html.Br(),
     
     dcc.Graph(id="my_covid_map", figure={})
@@ -61,24 +61,22 @@ app.layout = html.Div([
 @app.callback(
     [Output(component_id = "output_container", component_property="children"),
     Output(component_id = "my_covid_map", component_property="figure")],
-    [Input(component_id = "slct_gender", component_property="value"),
+    [#Input(component_id = "slct_gender", component_property="value"),
     Input(component_id = "data", component_property="value")]
 )
-def update_graph(option_slct1, option_slct2):
-    print(option_slct1, option_slct2)
-    print(type(option_slct1, option_slct2))
+def update_graph(option):
+    print(ddgender, option)
+    #print(type(option_slct1, option_slct2))
     
-    container = "The user chose {} for the gender and to display {}".format(option_slct1, option_slct2)
+    container = "The user chose {} for the gender and to display {}".format(ddgender, option)
     
-    dff = df.copy
-    dff = dff[dff["gender"]==option_slct1]
-    dff = dff[option_slct2]
+    dff = df[(df["data_cat"]==option) & (df["gender"]==ddgender)]
     
     #Plotly Express
     fig = px.choropleth(
         data_frame = dff,
         locations="GID_0",
-        color=option_slct2,
+        color="amount",
         hover_name="country_agg",
         color_continuous_scale=px.colors.sequential.Plasma
     )
