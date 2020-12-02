@@ -15,7 +15,7 @@ app = dash.Dash(__name__)
 
 # ------------------------------------------------------------
 
-dfs_country = functions.functions_data.get_data("data/CMU_Global_data/Full_Survey_Data/country/smooth/", "country")
+dfs_country = functions.functions_data.get_data("dash_data/country/smooth/", "country")
 countries = pd.concat(dfs_country, ignore_index=True)
 countries = functions.functions_data.insert_month(countries)
 df = countries[countries["age_bucket"]=="overall"]
