@@ -28,7 +28,7 @@ The WHO is interested in cultural and political impacts on social distancing mea
 
 
 # Create the capstone environment
-
+Requires node to be installed (https://nodejs.org/en/)
 ```bash
 conda create --name capstone python=3.8.5
 conda install -n capstone pytest==6.1.1
@@ -42,4 +42,9 @@ conda install -n capstone statsmodels
 conda install -n capstone sklearn
 conda install -n capstone nb_conda
 conda install -n capstone xlrd
+conda install -c plotly plotly=4.13.0
+conda install jupyterlab "ipywidgets=7.5"
+jupyter labextension install jupyterlab-plotly@4.13.0
+jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.13.0
+conda install -c conda-forge dash
 ```
