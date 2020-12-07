@@ -24,7 +24,7 @@ df = pd.read_csv("dash_data/countries_dash.csv.gzip", compression="gzip")
 #App layout
 app.layout = html.Div([
     
-    html.H1("Dashboard for Capstone", style={"text-align": "centre"}),
+    html.H1("Corona Pandemic over Time", style={"text-align": "centre"}),
     
     dcc.Dropdown(id="slct_gender",
                 options=[
@@ -50,7 +50,7 @@ app.layout = html.Div([
     html.Div(id="output_container", children=[]),
     html.Br(),
     
-    dcc.Graph(id="my_covid_map", figure={})
+    dcc.Graph(id="my_covid_map", figure={}, style={"width": "150vh", "height": "90vh"})
     
 ])
 
@@ -69,7 +69,7 @@ def update_graph(ddgender, option):
     print(ddgender, option)
     #print(type(option_slct1, option_slct2))
     
-    container = "The user chose {} for the gender and to display {}".format(ddgender, option)
+    container = "The user chose to display {} for {} gender".format(option, ddgender)
     
     dff = df[(df["data_cat"]==option) & (df["gender"]==ddgender)]
     
