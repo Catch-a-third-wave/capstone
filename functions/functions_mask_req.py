@@ -89,5 +89,8 @@ def merge_mask_requirements(survey_data,mask_wearing_requirements):
     # Join datasets on iso_code and date
     df_combined = pd.merge(df_survey,df_masks,on=["country_agg"])
 
+    
+    print('Merging mask wearing requirements completed.')
+
     return df_combined
 
