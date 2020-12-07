@@ -38,10 +38,12 @@ app.layout = html.Div([
     
     dcc.Dropdown(id="data",
                 options=[
-                    {"label": "Number of responses", "value": "rolling_total_responses"},
-                    {"label": "Individuals with COVID-like illness", "value": "smoothed_pct_cli_weighted"}],
+                    {"label": "Total cases per million", "value": "total_cases_per_million"},
+                    {"label": "Total deaths per million", "value": "total_deaths_per_million"},
+                    {"label": "Median Age", "value": "median_age"},
+                    {"label": "Human Development Index", "value": "hdi"}],
                 multi=False,
-                value="rolling_total_responses",
+                value="total_cases_per_million",
                 style={"width": "40%"}
                 ),
     
@@ -74,10 +76,10 @@ def update_graph(ddgender, option):
     #Plotly Express
     fig = px.choropleth(
         data_frame = dff,
-        locations="GID_0",
+        locations="iso_code",
         color="amount",
         hover_name="country_agg",
-        color_continuous_scale=px.colors.sequential.Plasma
+        color_continuous_scale=["white", "#00c5ff", "#00287f", "#00151f"]
     )
     
     return container, fig
