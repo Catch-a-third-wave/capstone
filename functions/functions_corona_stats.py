@@ -20,8 +20,13 @@ def merge_corona_stats(survey_data,covid_cases):
 
     # Delete rows of dates in covid_cases that are before and after the survey dates
     df_covid = df_covid_cases[df_covid_cases['date'].isin(df_survey['date'])]
-
+    
+    # Change negative numbers of new cases and deaths per million to 0
+    df_covid.loc[df_covid["new_cases_smoothed_per_million"] < 0, "new_cases_smoothed_per_million"] = 0
+    df_covid.loc[df_covid["new_deaths_smoothed_per_million"] < 0, "new_deaths_smoothed_per_million"] = 0
+    
     # Join datasets on iso_code and date
     df_combined = pd.merge(df_survey,df_covid,on=["iso_code","date"])
 
+    print('Merging corona stats completed.')
     return df_combined
