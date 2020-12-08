@@ -41,7 +41,12 @@ app.layout = html.Div([
                     {"label": "Total cases per million", "value": "total_cases_per_million"},
                     {"label": "Total deaths per million", "value": "total_deaths_per_million"},
                     {"label": "Median Age", "value": "median_age"},
-                    {"label": "Human Development Index", "value": "hdi"}],
+                    {"label": "Human Development Index", "value": "hdi"},
+                    {"label": "Total number of responses", "value": "rolling_total_responses"},
+                    {"label": "Percentage of people with COVID-like illness", "value": "smoothed_pct_cli_weighted"},
+                    {"label": "Percentage of people working outside their own home", "value": "smoothed_pct_worked_outside_home_weighted"},
+                    {"label": "Percentage of people leaving heir house for groceries/pharmacy", "value": "smoothed_pct_grocery_outside_home_weighted"},
+                    {"label": "Percentage of people eating meals outside their own home", "value": "smoothed_pct_ate_outside_home_weighted"}],
                 multi=False,
                 value="total_cases_per_million",
                 style={"width": "40%"}
