@@ -83,11 +83,31 @@ def update_graph(ddgender, option):
     
     dff = df[(df["data_cat"]==option) & (df["gender"]==ddgender)]
     
+    ranges = {
+        "rolling_total_responses": [50,120000],
+        "smoothed_pct_cli_weighted": [0, 62],
+        "smoothed_pct_worked_outside_home_weighted": [0, 90],
+        "smoothed_pct_grocery_outside_home_weighted": [0, 93],
+        "smoothed_pct_ate_outside_home_weighted": [0, 86],
+        "smoothed_pct_spent_time_with_non_hh_weighted": [0, 83],
+        "smoothed_pct_attended_public_event_weighted": [0, 74],
+        "smoothed_pct_used_public_transit_weighted": [0, 80],
+        "smoothed_pct_direct_contact_with_non_hh_weighted": [0, 90],
+        "smoothed_pct_no_public_weighted": [0, 67],
+        "smoothed_pct_wear_mask_all_time_weighted": [0, 96],
+        "smoothed_pct_wear_mask_most_time_weighted": [0, 52],
+        "smoothed_pct_wear_mask_half_time_weighted": [0, 42],
+        "smoothed_pct_wear_mask_some_time_weighted": [0, 46],
+        "smoothed_pct_wear_mask_none_time_weighted": [0, 94]
+    }
+
+
     #Plotly Express
     fig = px.choropleth(
         data_frame = dff,
         locations="iso_code",
         color="amount",
+        range_color=ranges.get(option),
         hover_name="country_agg",
         animation_frame = "date",
         projection = "natural earth",
