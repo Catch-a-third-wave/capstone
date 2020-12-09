@@ -51,7 +51,13 @@ app.layout = html.Div([
                     {"label": "Percentage of people attending public events", "value": "smoothed_pct_attended_public_event_weighted"},
                     {"label": "Percentage of people using public transport", "value": "smoothed_pct_used_public_transit_weighted"},
                     {"label": "Percentage of people in direct contact with non-household members", "value": "smoothed_pct_direct_contact_with_non_hh_weighted"},
-                    {"label": "Percentage of people who haven't been in public in 7 days", "value": "smoothed_pct_no_public_weighted"}],
+                    {"label": "Percentage of people who haven't been in public in 7 days", "value": "smoothed_pct_no_public_weighted"},
+                    {"label": "Percentage of people wearing masks all the time", "value": "smoothed_pct_wear_mask_all_time_weighted"},
+                    {"label": "Percentage of people wearing masks most of the time", "value": "smoothed_pct_wear_mask_most_time_weighted"},
+                    {"label": "Percentage of people wearing masks half of the time", "value": "smoothed_pct_wear_mask_half_time_weighted"},
+                    {"label": "Percentage of people wearing masks some times", "value": "smoothed_pct_wear_mask_some_time_weighted"},
+                    {"label": "Percentage of people never wearing masks", "value": "smoothed_pct_wear_mask_none_time_weighted"}],
+
                 multi=False,
                 value="total_cases_per_million",
                 style={"width": "40%"}
@@ -84,6 +90,8 @@ def update_graph(ddgender, option):
     dff = df[(df["data_cat"]==option) & (df["gender"]==ddgender)]
     
     ranges = {
+        "total_cases_per_million": [0, 63500],   
+        "total_deaths_per_million": [0, 1070],
         "rolling_total_responses": [50,120000],
         "smoothed_pct_cli_weighted": [0, 62],
         "smoothed_pct_worked_outside_home_weighted": [0, 90],
@@ -99,7 +107,7 @@ def update_graph(ddgender, option):
         "smoothed_pct_wear_mask_half_time_weighted": [0, 42],
         "smoothed_pct_wear_mask_some_time_weighted": [0, 46],
         "smoothed_pct_wear_mask_none_time_weighted": [0, 94]
-    }
+        }
 
 
     #Plotly Express
