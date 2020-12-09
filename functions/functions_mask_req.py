@@ -66,6 +66,19 @@ def merge_mask_requirements(survey_data,mask_wearing_requirements):
 
     # Drop required and requirement_type columns
     mask_wearing_requirements.drop(columns=["required","requirement_type"], axis=1, inplace=True)
+    
+    # Change mask_recommended from 'Yes/No' to binary 0/1
+    mask_wearing_requirements.loc[mask_wearing_requirements["mask_recommended"] == "Yes", "mask_recommended"] = 1
+    mask_wearing_requirements.loc[mask_wearing_requirements["mask_recommended"] == "No", "mask_recommended"] = 0
+    mask_wearing_requirements.loc[mask_wearing_requirements["mask_recommended"].isna(), "mask_recommended"] = 0
+    mask_wearing_requirements["mask_recommended"] = mask_wearing_requirements["mask_recommended"].astype('uint8')
+
+    # Set missing dates in 'mask_requirement_date' to 29 April 2020
+    mask_wearing_requirements.loc[mask_wearing_requirements["mask_requirement_date"].isna(), "mask_requirement_date"] = pd.to_datetime("2020-04-29")
+
+    # Make datetime object from 'mask_requirement_date'
+    mask_wearing_requirements['mask_requirement_date'] = pd.to_datetime(mask_wearing_requirements.loc[:,'mask_requirement_date'])
+
 
     # Check differences in included countries between covid cases and survey data
     unique_countries = set(survey_data["country_agg"]).symmetric_difference(set(mask_wearing_requirements["country"]))
@@ -94,3 +107,42 @@ def merge_mask_requirements(survey_data,mask_wearing_requirements):
 
     return df_combined
 
+def add_requirement_by_date(df_combined):
+    cur_mask_recommended = []
+    cur_mask_required_full_country = []
+    cur_mask_not_required = []
+    cur_mask_not_required_recommended = []
+    cur_mask_not_required_universal = []
+    cur_mask_required_part_country = []
+    cur_mask_everywhere_in_public = []
+    cur_mask_public_indoors = []
+    cur_mask_public_transport = []
+
+    requirements = ["mask_recommended","mask_required_full_country","mask_not_required","mask_not_required_recommended","mask_not_required_universal","mask_required_part_country","mask_everywhere_in_public","mask_public_indoors","mask_public_transport"]
+
+    current_requirements = [cur_mask_recommended,cur_mask_required_full_country,cur_mask_not_required,cur_mask_not_required_recommended,cur_mask_not_required_universal,cur_mask_required_part_country,cur_mask_everywhere_in_public,
+    cur_mask_public_indoors,cur_mask_public_transport]
+
+    for i in range(len(requirements)):
+        for j in range(len(df_combined)):
+            if df_combined.at[df_combined.index[j],'mask_requirement_date'] > df_combined.at[df_combined.index[j],'date']:
+                if df_combined.at[df_combined.index[j],requirements[i]] == 1:
+                    current = 0
+                    current_requirements[i].append(current)
+                else:
+                    current_requirements[i].append(df_combined.at[df_combined.index[j],requirements[i]])
+            else:
+                current_requirements[i].append(df_combined.at[df_combined.index[j],requirements[i]])
+                
+    df_combined["cur_mask_recommended"] = cur_mask_recommended
+    df_combined["cur_mask_required_full_country"] = cur_mask_required_full_country
+    df_combined["cur_mask_not_required"] = cur_mask_not_required
+    df_combined["cur_mask_not_required_recommended"] = cur_mask_not_required_recommended
+    df_combined["cur_mask_not_required_universal"] = cur_mask_not_required_universal
+    df_combined["cur_mask_required_part_country"] = cur_mask_required_part_country
+    df_combined["cur_mask_everywhere_in_public"] = cur_mask_everywhere_in_public
+    df_combined["cur_mask_public_indoors"] = cur_mask_public_indoors
+    df_combined["cur_mask_public_transport"] = cur_mask_public_transport
+
+    print('Feature engineering completed.')
+    return df_combined
