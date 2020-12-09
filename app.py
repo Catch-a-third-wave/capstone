@@ -117,6 +117,7 @@ def update_graph(ddgender, option):
         color="amount",
         range_color=ranges.get(option),
         hover_name="country_agg",
+        hover_data=["date", "data_cat", "amount"],
         animation_frame = "date",
         projection = "natural earth",
         color_continuous_scale=["white", "#00c5ff", "#00287f", "#00151f"]
