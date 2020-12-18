@@ -49,4 +49,5 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.
 conda install -c conda-forge dash
 pip install tensorflow
 pip install keras
+conda install -c districtdatalabs yellowbrick
 ```
